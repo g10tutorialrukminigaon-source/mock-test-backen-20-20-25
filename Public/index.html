@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mock Test</title>
+  <title>IIT-JEE-Mock Test</title>
   <style>
     body {
       font-family: sans-serif;
@@ -142,14 +142,14 @@
 
 <body>
   <div id="loginContainer">
-    <h2>Login to Mock Test</h2>
+    <h2>Login to IIT-JEE Mock  Test</h2>
     <input type="email" id="emailInput" placeholder="Enter your email" required />
     <button onclick="login()">Login</button>
   </div>
 
   <div id="appContainer">
     <div class="header-bar" id="headerBar">
-      <h1>Mock Test</h1>
+      <h1>IIT-JEE Mock Test</h1>
       <button id="backBtn" class="back-btn" onclick="resetAll()">Back</button>
     </div>
 
@@ -163,7 +163,9 @@
       <select id="chapterSelect" disabled>
         <option value="">Select Chapter</option>
       </select>
+    </div>
 
+    <div id="topicRow">
       <label id="topicLabel" for="itemSelect">Topic / Year:</label>
       <select id="itemSelect" disabled>
         <option value="">Select Topic / Year</option>
@@ -174,7 +176,7 @@
   </div>
 
   <script>
-    const BACKEND_URL = "hhttps://mock-test-backend-837x.onrender.com";
+    const BACKEND_URL = "https://mock-test-backen-20-20-25.onrender.com";
 
     async function login() {
       const email = document.getElementById("emailInput").value.trim().toLowerCase();
@@ -228,9 +230,10 @@
       }
     }, 5000);
 
-    // Catalog JSON
-    const catalog = {
-       "Answer Key And Solution": {
+    // === Fixed Catalog JSON with unique keys ===
+   // === Fixed Catalog JSON with unique keys ===
+const catalog = {
+  "Answer Key And Solution": {
                "DPP": {
               "DPP Answer Key And Solution (All Subject Include)": "https://gten-educational-platform.github.io/Class-12/DPP PCM answerkey and solution.html"
             },
@@ -242,8 +245,8 @@
  "Mock test ": {
             "Mock test IIT-Jee": {
               "Mock Test -1 ": "https://gten-educational-platform.github.io/Class-12/mock test-1.html-19.09-25.html",
-              "Mock Test -2": "https://chemistry-g10ep.github.io/IIT-JEE--M--HTML-PDF-CHEMICAL-ARITHMETIC/6. Chemical stoichiometry -2.html",
-			  "Mock Test -3": "https://chemistry-g10ep.github.io/IIT-JEE--M--HTML-PDF-CHEMICAL-ARITHMETIC/6. Chemical stoichiometry -3.html"
+              "Mock Test -2": "https://gten-educational-platform.github.io/Class-12/mock test-2 -20-10.2025.html",
+			  "Mock Test -3": "mock test-2 -20-10.2025/6. Chemical stoichiometry -3.html"
             },
             "Mock test NEET": {
              "Mock Test -1 ": "https://gten-educational-platform.github.io/Class-12/mock test-1.html-19.09-25.html",
@@ -275,8 +278,10 @@
               "Mock Test -2": "https://chemistry-g10ep.github.io/IIT-JEE--M--HTML-PDF-CHEMICAL-ARITHMETIC/6. Chemical stoichiometry -2.html",
 			  "Mock Test -3": "https://chemistry-g10ep.github.io/IIT-JEE--M--HTML-PDF-CHEMICAL-ARITHMETIC/6. Chemical stoichiometry -3.html"
             }
-      }
-    };
+  }
+};
+
+
 
     const levelSelect   = document.getElementById('levelSelect');
     const chapterSelect = document.getElementById('chapterSelect');
@@ -285,6 +290,7 @@
     const viewer        = document.getElementById('viewer');
     const controls      = document.getElementById('controls');
     const headerBar     = document.getElementById('headerBar');
+    const topicRow      = document.getElementById('topicRow');
 
     function resetSelect(selectEl, placeholderText, disable = false) {
       selectEl.innerHTML = `<option value="">${placeholderText}</option>`;
@@ -333,34 +339,46 @@
       if (window.innerWidth > 600) {
         headerBar.appendChild(inlineDiv);
       } else {
-        controls.appendChild(topicLabel);
-        controls.appendChild(itemSelect);
+        topicRow.appendChild(topicLabel);
+        topicRow.appendChild(itemSelect);
       }
     }
 
-    function resetAll() {
-      viewer.src = '';
-      viewer.style.height = "450px";
-      resetSelect(levelSelect, 'Select Level / Years', false);
-      resetSelect(chapterSelect, 'Select Chapter', true);
-      resetSelect(itemSelect, 'Select Topic / Year', true);
-      fillSelect(levelSelect, getKeys(catalog));
-      controls.classList.remove('hidden');
-      const inline = headerBar.querySelector('.inline-topic');
-      if (inline) inline.remove();
-      controls.appendChild(topicLabel);
-      controls.appendChild(itemSelect);
-    }
+  function resetAll() {
+  viewer.src = '';
+  viewer.style.height = "450px";
+
+  // Reset all selects
+  resetSelect(levelSelect, 'Select Level / Years', false);
+  resetSelect(chapterSelect, 'Select Chapter', true);
+  resetSelect(itemSelect, 'Select Topic / Year', true);
+
+  // Refill Levels so user can pick again
+  fillSelect(levelSelect, getKeys(catalog));
+
+  // Show dropdown controls again
+  controls.classList.remove('hidden');
+
+  // Move topic controls back below
+  topicRow.appendChild(topicLabel);
+  topicRow.appendChild(itemSelect);
+
+  // Remove inline dropdown (if exists)
+  const inline = headerBar.querySelector('.inline-topic');
+  if (inline) inline.remove();
+}
+
 
     window.addEventListener('resize', () => {
       const inline = headerBar.querySelector('.inline-topic');
       if (inline && window.innerWidth <= 600) {
-        controls.appendChild(topicLabel);
-        controls.appendChild(itemSelect);
+        topicRow.appendChild(topicLabel);
+        topicRow.appendChild(itemSelect);
         inline.remove();
       }
     });
 
+    // Fill levels dropdown
     fillSelect(levelSelect, getKeys(catalog));
   </script>
 </body>
